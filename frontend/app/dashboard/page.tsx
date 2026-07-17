@@ -3,27 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
 import api from "@/lib/api";
 import { createClient } from "@/lib/supabaseClient";
-
-// Dynamically import recharts to avoid SSR issues
-const PieChart = dynamic(
-  () => import("recharts").then((mod) => mod.PieChart),
-  { ssr: false }
-);
-const Pie = dynamic(
-  () => import("recharts").then((mod) => mod.Pie),
-  { ssr: false }
-);
-const Cell = dynamic(
-  () => import("recharts").then((mod) => mod.Cell),
-  { ssr: false }
-);
-const ResponsiveContainer = dynamic(
-  () => import("recharts").then((mod) => mod.ResponsiveContainer),
-  { ssr: false }
-);
 
 type DashboardData = {
   total_courses: number;
@@ -110,14 +91,6 @@ export default function DashboardPage() {
   if (loading) return <div className="p-8 text-sm text-slate-500">Loading...</div>;
 
   const completed = data?.completed_lessons ?? 0;
-  const remaining = Math.max((data?.total_lessons ?? 0) - completed, 0);
-  const chartData =
-    data && data.total_lessons > 0
-      ? [
-          { name: "Completed", value: completed },
-          { name: "Remaining", value: remaining },
-        ]
-      : [{ name: "No lessons yet", value: 1 }];
 
   return (
     <div className="min-h-screen bg-slate-50 p-8">
@@ -195,34 +168,14 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Progress chart */}
+        {/* Progress chart - Temporarily disabled */}
         <div className="bg-white border border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center">
           <p className="text-xs text-slate-500 mb-2 self-start">Learning Progress</p>
-          <div className="w-full h-36">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={chartData}
-                  dataKey="value"
-                  innerRadius={35}
-                  outerRadius={55}
-                  paddingAngle={2}
-                >
-                  {chartData.map((entry, i) => (
-                    <Cell
-                      key={i}
-                      fill={
-                        entry.name === "Completed"
-                          ? "#0f172a"
-                          : entry.name === "Remaining"
-                          ? "#e2e8f0"
-                          : "#f1f5f9"
-                      }
-                    />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
+          <div className="w-full h-36 flex items-center justify-center">
+            <div className="text-center">
+              <p className="text-4xl font-bold text-slate-900">{data?.completion_percentage ?? 0}%</p>
+              <p className="text-xs text-slate-500 mt-2">Complete</p>
+            </div>
           </div>
           <p className="text-xs text-slate-500 -mt-2">
             {data?.total_lessons ? `${completed} of ${data.total_lessons} lessons` : "Upload a PDF to begin"}
