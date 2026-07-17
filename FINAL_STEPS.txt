@@ -1,0 +1,93 @@
+===========================================
+FINAL CONFIGURATION STEPS
+===========================================
+
+Wait for both deployments to finish (5-10 minutes total)
+
+Then complete these 3 final steps:
+
+---
+
+STEP 1: GET YOUR VERCEL URL
+----------------------------
+
+Once Vercel finishes deploying:
+1. Look for your frontend URL
+2. It will be something like: https://pdf-ecourse-frontend-xxxx.vercel.app
+3. Copy this URL
+
+---
+
+STEP 2: UPDATE CORS IN RENDER
+------------------------------
+
+1. Go to Render dashboard
+2. Click on your "pdf-ecourse-backend" service
+3. Click "Environment" in left sidebar
+4. Find "CORS_ORIGINS" variable
+5. Click "Edit"
+6. Change value to:
+   http://localhost:3000,https://YOUR-VERCEL-URL
+
+   Example:
+   http://localhost:3000,https://pdf-ecourse-frontend-xxxx.vercel.app
+
+7. Click "Save Changes"
+8. Wait 2-3 minutes for automatic redeploy
+
+---
+
+STEP 3: UPDATE SUPABASE REDIRECTS
+----------------------------------
+
+1. Go to Supabase dashboard
+2. Click "Authentication" in left sidebar
+3. Click "URL Configuration"
+4. Under "Redirect URLs", add:
+   https://YOUR-VERCEL-URL/auth/callback
+
+   Example:
+   https://pdf-ecourse-frontend-xxxx.vercel.app/auth/callback
+
+5. Click "Save"
+
+---
+
+DONE! TEST YOUR APP
+-------------------
+
+1. Go to your Vercel URL
+2. Click "Get Started" or "Log in"
+3. Sign up with email/password
+4. Upload a PDF (5-10 pages)
+5. Wait for course generation (20-40 seconds)
+6. Explore your course!
+
+---
+
+YOUR LIVE URLS:
+---------------
+
+Frontend: https://[your-vercel-url].vercel.app
+Backend: https://pdf-ecourse-backend.onrender.com
+GitHub: https://github.com/Raghuvarun93/pdf-ecourse-platform
+
+---
+
+TROUBLESHOOTING:
+----------------
+
+If login doesn't work:
+- Check Supabase redirect URL is correct
+- Make sure it includes /auth/callback
+
+If PDF upload fails:
+- Check Render backend logs
+- Verify GROQ_API_KEY is correct
+- Wait a bit - free tier spins down after inactivity
+
+If course generation is slow:
+- Normal on free tier (20-60 seconds)
+- Groq free tier rate limits apply
+
+===========================================

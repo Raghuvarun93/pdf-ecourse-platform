@@ -23,14 +23,15 @@ def answer_question(document_id: str, question: str, chat_history: list[dict] | 
             for m in chat_history[-6:]  # last few turns for context continuity
         )
 
+    # Build the user prompt without backslashes in f-string
+    conversation_section = f"RECENT CONVERSATION:\n{history_text}\n\n" if history_text else ""
+    
     user_prompt = f"""CONTEXT FROM DOCUMENT:
-\"\"\"
+---
 {context}
-\"\"\"
+---
 
-{"RECENT CONVERSATION:\n" + history_text if history_text else ""}
-
-STUDENT'S QUESTION: {question}
+{conversation_section}STUDENT'S QUESTION: {question}
 
 Answer clearly and helpfully, grounded in the context above."""
 
