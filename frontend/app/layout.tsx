@@ -2,8 +2,8 @@ import "./globals.css";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 export const metadata = {
-  title: "PDF to E-Course",
-  description: "Turn any PDF into an interactive learning course",
+  title: "PDF to E-Course Learning Platform",
+  description: "Turn any PDF into an interactive learning course with AI",
 };
 
 export default function RootLayout({
